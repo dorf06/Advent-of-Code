@@ -14,6 +14,10 @@ namespace Day_2___Puzzle_1
         int height;
         int length;
 
+        // Ribbon
+        int wrapRibbon;
+        int bowRibbon;
+
         // Calculated values
         int smallestArea;
         int totalArea;
@@ -23,6 +27,11 @@ namespace Day_2___Puzzle_1
         {
             return requiredPaper;
         }
+
+        public int getTotalRibbon()
+        {
+            return wrapRibbon + bowRibbon;
+        }
               
         public Present ( int width, int height, int length )
         {
@@ -31,10 +40,11 @@ namespace Day_2___Puzzle_1
             this.height = height;
             this.length = length;
 
-            Console.WriteLine(this.width + " " + this.height + " " + this.length);
+            //Console.WriteLine(this.width + " " + this.height + " " + this.length);
 
             int temp;
 
+            #region Present Area
             // 2 * l * w
             temp = 2 * length * width;
 
@@ -60,6 +70,30 @@ namespace Day_2___Puzzle_1
 
             // Add slack
             requiredPaper = totalArea + smallestArea;
+            #endregion
+
+            #region Ribbon
+            // Calculate bow
+            bowRibbon = this.width * this.height * this.length;
+
+            // Calculate wrap
+            // Find smallest perimeter
+            // Find largest side
+            int largest = this.width;
+
+            if (largest < this.height)
+                largest = this.height;
+
+            if (largest < this.length)
+                largest = this.length;
+
+            // Add all sides together and subtract the largest
+            int smallestPerimeter = this.width + this.height + this.length - largest;
+
+            // Final calculation
+            wrapRibbon = 2 * smallestPerimeter;
+              
+            #endregion
         }
     }
 
@@ -69,6 +103,7 @@ namespace Day_2___Puzzle_1
         {
             // Tally varialbes
             long totalRequiredPaper = 0;
+            long totalRequiredRibbon = 0;
 
             // Containers
             Stack<String> input = new Stack<String>();
@@ -117,8 +152,9 @@ namespace Day_2___Puzzle_1
                 // Push present to stack, because reasons
                 presents.Push(tempPresent);
 
-                // Add to total
+                // Add to totals
                 totalRequiredPaper += tempPresent.getRequiredPaper();
+                totalRequiredRibbon += tempPresent.getTotalRibbon();
 
                 Console.WriteLine(totalRequiredPaper);
 
@@ -126,6 +162,7 @@ namespace Day_2___Puzzle_1
             }
 
             Console.WriteLine("Total Required Wrapping Paper: " + totalRequiredPaper);
+            Console.WriteLine("Total Required Ribbon: " + totalRequiredRibbon);
 
             Console.ReadLine();
         }
