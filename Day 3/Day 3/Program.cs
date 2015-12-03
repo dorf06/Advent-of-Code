@@ -146,8 +146,9 @@ namespace Day_3
             // Close file
             sr.Close();
 
-            // Create an instance of Santa
+            // Create an instance of Santa and Robo-Santa
             Santa santa = new Santa();
+            Santa roboSanta = new Santa();
 
             // Push origin position to stack
             visitedList.Add(santa.getPosition().toString());
@@ -158,11 +159,19 @@ namespace Day_3
             // Run through directions
             for ( int i = 0; i < directions.Length; i++)
             {
-                // Update Santa
-                santa.move(directions[i]);
+                // Current santa
+                Santa current;
+
+                // Update Santas, santa even, robo odd
+                if ((i % 2) == 0)
+                    current = santa;
+                else
+                    current = roboSanta;
+
+                current.move(directions[i]);
 
                 // Grab position
-                Coords temp = santa.getPosition();
+                Coords temp = current.getPosition();
 
                 Console.WriteLine(temp.getX() + ", " + temp.getY());
 
