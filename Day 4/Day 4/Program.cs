@@ -11,29 +11,38 @@ namespace Day_4
     {
         static void Main(string[] args)
         {
+            // Input
             String input = "yzbqklnj";
+
+            // Hash subset length
+            int subLength = 6;
+
+            // Loop variables
             long winner = 0;
+            long iteration = 0;
             bool found = false;
 
-            long iteration = 0;
+            // Hash conversion variables
+            byte[] encoded, hash;
+            String output, first;
 
             while (!found)
             {
                 // Get byte array representation
-                byte[] encoded = new UTF8Encoding().GetBytes(input + iteration);
+                encoded = new UTF8Encoding().GetBytes(input + iteration);
 
                 // Get MD5
-                byte[] hash = new MD5CryptoServiceProvider().ComputeHash(encoded);
+                hash = new MD5CryptoServiceProvider().ComputeHash(encoded);
 
                 // Convert to string and format it without dashes and lowercase
-                String output = BitConverter.ToString(hash).Replace("-", String.Empty).ToLower();
+                output = BitConverter.ToString(hash).Replace("-", String.Empty).ToLower();
 
-                // Check first five digits for 0s
-                String firstFive = output.Substring(0, 5);
+                // Check first digits for 0s
+                first = output.Substring(0, subLength);
 
-                Console.WriteLine(input + iteration + ": Hash: " + output + " First 5: " + firstFive);
+                //Console.WriteLine(input + iteration + ": Hash: " + output + " First : " + first);
 
-                if (firstFive == "00000")
+                if (first == "000000")
                 {
                     found = true;
 
