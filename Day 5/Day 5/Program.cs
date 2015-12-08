@@ -42,7 +42,53 @@ namespace Day_5
             return false;
         }
 
+        public static bool secondHalfRuleOne(String input)
+        {
+            String keyString = null;
+            String searchString = null;
+
+            // Pair of two letters appear at least twice without overlap
+            for (int i = 0; i < input.Length - 1; i++)
+            {
+                // Run through all the two letter substrings
+                keyString = input.Substring(i, 2);
+
+                searchString = input.Substring(i + 2);
+                
+                for (int ii = 0; ii < searchString.Length - 1; ii++)
+                {
+                    // Search for substring within searchString
+                    if (searchString.Substring(ii, 2) == keyString)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool secondHalfRuleTwo (String input)
+        {
+            // One letter repeats with one letter between them
+            for (int i = 0; i < input.Length - 2; i++)
+            {
+                // If current letter matches letter after next
+                if (input[i] == input[i + 2])
+                    return true;
+            }
+
+            // Default case
+            return false;
+        }
+
         public static bool CheckString (String input)
+        {
+            if (secondHalfRuleOne(input) && secondHalfRuleTwo(input))
+                return true;
+            else
+                return false;
+        }
+
+        public static bool CheckStringOld (String input)
         {
             // True = Nice string
             // Check for Naughty strings
@@ -179,6 +225,9 @@ namespace Day_5
                 Console.WriteLine("");
 
                 input = Console.ReadLine();
+
+                //if (input == "input")
+                //input = @"C:\Users\cordell.wagendorf\Documents\GitHubVisualStudio\Advent-of-Code\Day 5\Day 5\puzzleInput";
 
                 // Back to main menu
                 if (input == "main")
